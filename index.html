@@ -42,7 +42,11 @@
     line-height: 1.7; word-break: keep-all;
   }
   .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
-  header.hero { padding: 48px 0 24px; border-bottom: 1px solid var(--line); }
+  header.hero { padding: 20px 0 24px; border-bottom: 1px solid var(--line); }
+  .lessons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; font-size: .88rem; }
+  .lessons a { color: var(--muted); text-decoration: none; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); }
+  .lessons a[aria-current="page"] { color: #fff; background: var(--accent); border-color: var(--accent); }
+  footer a { color: var(--accent); }
   .eyebrow { color: var(--accent); font-weight: 700; font-size: .9rem; letter-spacing: .04em; }
   h1 { font-size: clamp(1.6rem, 4.5vw, 2.4rem); line-height: 1.3; margin: 6px 0 10px; }
   h2 { font-size: 1.35rem; margin: 0 0 4px; }
@@ -136,6 +140,10 @@
 
 <header class="hero">
   <div class="wrap">
+    <nav class="lessons" aria-label="차시">
+      <a href="index.html" aria-current="page">1차시 중세 국어의 특징</a>
+      <a href="lesson2.html">2차시 제자 원리</a>
+    </nav>
     <div class="eyebrow">중학교 2학년 국어 · 1차시 (45분)</div>
     <h1>훈민정음 서문으로 배우는<br>중세 국어의 특징</h1>
     <p class="lead">학습 목표: 《월인석보》에 실린 훈민정음 서문을 읽고, 후기 중세 국어가 현대 국어와 어떻게 다른지 설명할 수 있다.</p>
@@ -239,7 +247,7 @@
 </main>
 
 <footer>
-  <div class="wrap">중학교 2학년 국어 수업 자료 · 원문 출처: 《월인석보》 권1(1459) · 옛한글은 '맑은 고딕' 등 옛한글을 지원하는 글꼴에서 가장 잘 보여요.</div>
+  <div class="wrap">중학교 2학년 국어 수업 자료 · 원문 출처: 《월인석보》 권1(1459) · 옛한글은 '맑은 고딕' 등 옛한글을 지원하는 글꼴에서 가장 잘 보여요. · <a href="lesson2.html">다음 차시: 훈민정음의 제자 원리 →</a></div>
 </footer>
 
 <script>

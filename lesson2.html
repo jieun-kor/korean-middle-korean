@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>훈민정음의 제자 원리</title>
+<meta name="description" content="중학교 2학년 국어 2차시 – 상형, 가획, 이체, 천지인 원리로 훈민정음 28자가 만들어진 과정을 탐구합니다.">
+<style>
+  :root {
+    --bg: #faf7f0; --surface: #ffffff; --ink: #1f1d1a; --muted: #6b655c; --line: #e4ddd0;
+    --accent: #9c3d2a; --accent-soft: #f6e4dc; --hl: #ffe08a;
+    --yang: #c2410c; --yang-soft: #fde7d6; --eum: #1d4ed8; --eum-soft: #dfe8fd;
+    --ok: #2f7a4a; --ok-soft: #e1f2e6; --bad: #b3362b; --bad-soft: #fbe3e0;
+    --radius: 14px;
+    --oldfont: "Malgun Gothic", "맑은 고딕", "Noto Sans CJK KR", "Source Han Sans K", "Apple SD Gothic Neo", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #181715; --surface: #23211e; --ink: #f1ece3; --muted: #a9a196; --line: #3a3631;
+      --accent: #e58a6f; --accent-soft: #3d2a23; --hl: #6b5512;
+      --yang: #fb923c; --yang-soft: #3b2414; --eum: #7aa2ff; --eum-soft: #1c2640;
+      --ok: #7fd09a; --ok-soft: #1f3527; --bad: #f08a7e; --bad-soft: #3d2320;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #181715; --surface: #23211e; --ink: #f1ece3; --muted: #a9a196; --line: #3a3631;
+    --accent: #e58a6f; --accent-soft: #3d2a23; --hl: #6b5512;
+    --yang: #fb923c; --yang-soft: #3b2414; --eum: #7aa2ff; --eum-soft: #1c2640;
+    --ok: #7fd09a; --ok-soft: #1f3527; --bad: #f08a7e; --bad-soft: #3d2320;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.7; word-break: keep-all;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
+  .lessons { display: flex; gap: 8px; padding-top: 18px; font-size: .88rem; }
+  .lessons a { color: var(--muted); text-decoration: none; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); }
+  .lessons a[aria-current="page"] { color: #fff; background: var(--accent); border-color: var(--accent); }
+  header.hero { padding: 20px 0 24px; border-bottom: 1px solid var(--line); }
+  .eyebrow { color: var(--accent); font-weight: 700; font-size: .9rem; letter-spacing: .04em; margin-top: 18px; }
+  h1 { font-size: clamp(1.6rem, 4.5vw, 2.4rem); line-height: 1.3; margin: 6px 0 10px; }
+  h2 { font-size: 1.35rem; margin: 0 0 4px; }
+  h3 { font-size: 1.05rem; margin: 22px 0 6px; }
+  .lead { color: var(--muted); margin: 0; }
+  nav.steps { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+  nav.steps ol { display: flex; gap: 6px; list-style: none; margin: 0; padding: 10px 0; overflow-x: auto; }
+  nav.steps a { display: block; white-space: nowrap; text-decoration: none; color: var(--ink); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: .9rem; }
+  nav.steps a span { color: var(--muted); font-size: .8rem; margin-left: 4px; }
+  section { padding: 36px 0; border-bottom: 1px solid var(--line); }
+  .step-tag { display: inline-block; font-size: .8rem; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 2px 10px; border-radius: 999px; margin-bottom: 8px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .muted { color: var(--muted); }
+  button { font: inherit; cursor: pointer; color: inherit; }
+  .old { font-family: var(--oldfont); }
+
+  /* 도입 */
+  .recall { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 1.05rem; }
+  .recall .old { font-size: 1.5rem; }
+  .eq { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .eq div { flex: 1 1 160px; text-align: center; border-radius: 12px; padding: 12px; background: var(--bg); }
+  .eq b { display: block; font-size: 2rem; color: var(--accent); line-height: 1.2; }
+
+  /* 자음 표 */
+  .table-wrap { overflow-x: auto; margin-top: 14px; }
+  table.jamo { width: 100%; min-width: 520px; border-collapse: separate; border-spacing: 0; }
+  table.jamo th, table.jamo td { padding: 10px 8px; text-align: center; border-bottom: 1px solid var(--line); }
+  table.jamo thead th { font-size: .85rem; color: var(--muted); font-weight: 600; }
+  table.jamo tbody th { text-align: left; font-size: .92rem; white-space: nowrap; }
+  table.jamo tbody th small { display: block; color: var(--muted); font-weight: 400; font-size: .78rem; }
+  .arrow { color: var(--muted); font-size: .9rem; }
+  .letter {
+    font-family: var(--oldfont); font-size: 1.9rem; line-height: 1; width: 56px; height: 56px;
+    border-radius: 12px; border: 1px solid var(--line); background: var(--bg);
+  }
+  .letter.base { background: var(--accent-soft); border-color: var(--accent); }
+  .letter.odd { border-style: dashed; }
+  .letter[aria-pressed="true"] { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: .85rem; color: var(--muted); margin-top: 10px; }
+  .legend i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 4px; border: 1px solid var(--line); background: var(--bg); }
+  .legend i.base { background: var(--accent-soft); border-color: var(--accent); }
+  .legend i.odd { border-style: dashed; border-color: var(--muted); }
+  .detail {
+    margin-top: 14px; display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: center;
+    border-left: 4px solid var(--accent); background: var(--accent-soft);
+    border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 18px; min-height: 110px;
+  }
+  .detail .big { font-family: var(--oldfont); font-size: 4rem; line-height: 1; text-align: center; }
+  .detail .kind { display: inline-block; font-size: .8rem; font-weight: 700; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; margin-bottom: 4px; }
+  .note { margin-top: 14px; font-size: .93rem; border: 1px dashed var(--accent); border-radius: var(--radius); padding: 12px 16px; }
+
+  /* 가획 체험 */
+  .gahoek { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-top: 14px; }
+  .gahoek .chain { display: flex; align-items: center; gap: 10px; font-family: var(--oldfont); font-size: 3rem; min-height: 72px; }
+  .gahoek .chain span { opacity: .2; transition: opacity .3s; }
+  .gahoek .chain span.show { opacity: 1; }
+  .gahoek .chain .sep { font-size: 1.2rem; color: var(--muted); font-family: inherit; }
+  .chip { border: 1px solid var(--line); background: var(--surface); padding: 6px 12px; border-radius: 999px; font-size: .9rem; }
+  .chip[aria-pressed="true"], .chip.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* 모음 */
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .three .card { text-align: center; padding: 16px 10px; }
+  .three .sym { font-family: var(--oldfont); font-size: 3.2rem; line-height: 1.1; }
+  .three .what { font-weight: 700; }
+  .builder { margin-top: 18px; display: grid; grid-template-columns: 1fr 200px; gap: 18px; align-items: center; }
+  .builder .row { margin-bottom: 12px; }
+  .builder .row > div:first-child { font-size: .85rem; color: var(--muted); margin-bottom: 4px; }
+  .result { text-align: center; border-radius: var(--radius); padding: 16px; background: var(--bg); }
+  .result svg { width: 120px; height: 120px; }
+  .result .v { font-family: var(--oldfont); font-size: 2.4rem; font-weight: 700; line-height: 1.2; }
+  .badge { display: inline-block; font-size: .85rem; font-weight: 700; border-radius: 999px; padding: 2px 10px; }
+  .badge.yang { color: var(--yang); background: var(--yang-soft); }
+  .badge.eum { color: var(--eum); background: var(--eum-soft); }
+  .vgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+  .vcell { text-align: center; border-radius: 12px; padding: 10px 6px; border: 1px solid var(--line); background: var(--surface); }
+  .vcell .v { font-family: var(--oldfont); font-size: 1.8rem; line-height: 1.2; }
+  .vcell small { display: block; font-size: .78rem; color: var(--muted); }
+  .vcell.yang { border-color: var(--yang); }
+  .vcell.eum { border-color: var(--eum); }
+  .rowlabel { font-size: .85rem; color: var(--muted); margin-top: 14px; }
+
+  /* 퀴즈 */
+  .q { margin-top: 14px; }
+  .q h3 { font-size: 1rem; margin: 0 0 10px; }
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt { border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 8px 14px; font-family: var(--oldfont); }
+  .opt:disabled { cursor: default; }
+  .opt.right { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); font-weight: 700; }
+  .opt.wrong { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); text-decoration: line-through; }
+  .fb { margin-top: 8px; font-size: .93rem; min-height: 1.5em; }
+  .score { margin-top: 18px; font-size: 1.1rem; font-weight: 700; }
+  .reset { margin-top: 10px; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 14px; }
+  .summary-list { margin: 10px 0 0; padding-left: 1.2em; }
+  footer { padding: 28px 0 48px; color: var(--muted); font-size: .85rem; }
+  footer a { color: var(--accent); }
+  @media (max-width: 600px) {
+    .card { padding: 16px; }
+    section { padding: 28px 0; }
+    .builder { grid-template-columns: 1fr; }
+    .vgrid { grid-template-columns: repeat(2, 1fr); }
+    .three .sym { font-size: 2.6rem; }
+    .detail { grid-template-columns: 64px 1fr; }
+    table.jamo { min-width: 0; }
+    table.jamo th, table.jamo td { padding: 8px 2px; }
+    table.jamo thead th { font-size: .72rem; }
+    table.jamo tbody th { font-size: .8rem; white-space: normal; }
+    .arrow { font-size: .7rem; }
+    .letter { width: 40px; height: 40px; font-size: 1.4rem; border-radius: 9px; }
+    .detail .big { font-size: 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <nav class="lessons" aria-label="차시">
+      <a href="index.html">1차시 중세 국어의 특징</a>
+      <a href="lesson2.html" aria-current="page">2차시 제자 원리</a>
+    </nav>
+    <div class="eyebrow">중학교 2학년 국어 · 2차시 (45분)</div>
+    <h1>스물여덟 글자는<br>어떻게 만들었을까?</h1>
+    <p class="lead">학습 목표: 훈민정음의 제자 원리(상형, 가획, 이체, 천지인과 합성)를 이해하고, 이를 바탕으로 한글의 과학성을 설명할 수 있다.</p>
+  </div>
+</header>
+
+<nav class="steps" aria-label="수업 단계">
+  <div class="wrap">
+    <ol>
+      <li><a href="#intro">① 도입<span>5분</span></a></li>
+      <li><a href="#consonant">② 자음 만들기<span>15분</span></a></li>
+      <li><a href="#vowel">③ 모음 만들기<span>15분</span></a></li>
+      <li><a href="#quiz">④ 퀴즈·정리<span>10분</span></a></li>
+    </ol>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- 도입 -->
+  <section id="intro">
+    <span class="step-tag">① 도입 · 5분</span>
+    <h2>지난 시간 떠올리기</h2>
+    <div class="card recall">
+      <span>1차시에 읽은 서문의 한 구절:</span>
+      <span class="old">새로 스믈여듧 字ᄍᆞᆼᄅᆞᆯ ᄆᆡᇰᄀᆞ노니</span>
+      <span class="muted">(새로 스물여덟 글자를 만드니)</span>
+    </div>
+    <p style="margin-top:16px">🤔 <b>생각 열기:</b> 세종은 스물여덟 글자를 아무렇게나 만들었을까요? 《훈민정음》 해례본에는 글자를 만든 원리가 자세히 적혀 있어요.</p>
+    <div class="eq">
+      <div><b>17</b>자음(초성)</div>
+      <div><b>+ 11</b>모음(중성)</div>
+      <div><b>= 28</b>스물여덟 글자</div>
+    </div>
+    <p class="muted" style="margin-top:12px">핵심 원리: 발음 기관과 하늘·땅·사람의 <b>모양을 본뜨고(상형)</b>, 거기에 <b>획을 더하거나(가획)</b> <b>합쳐서(합성)</b> 나머지 글자를 만들었어요.</p>
+  </section>
+
+  <!-- 자음 -->
+  <section id="consonant">
+    <span class="step-tag">② 자음 만들기 · 15분</span>
+    <h2>자음 17자: 상형 → 가획 → 이체</h2>
+    <p class="muted">글자를 누르면 어떻게 만들어졌는지 설명이 나와요. 진한 칸은 <b>기본자</b>, 점선 칸은 <b>이체자</b>예요.</p>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table class="jamo">
+          <thead>
+            <tr><th>소리 나는 자리</th><th>기본자<br>(상형)</th><th></th><th>가획자 1</th><th></th><th>가획자 2</th><th>이체자</th></tr>
+          </thead>
+          <tbody id="cTable"></tbody>
+        </table>
+      </div>
+      <div class="legend"><span><i class="base"></i>기본자</span><span><i></i>가획자</span><span><i class="odd"></i>이체자</span></div>
+      <div class="detail" id="cDetail" aria-live="polite">
+        <div class="big">?</div>
+        <div class="muted">위 표에서 글자를 눌러 보세요.</div>
+      </div>
+    </div>
+
+    <h3>✏️ 획을 더해 보기 (가획)</h3>
+    <p class="muted" style="margin:0">소리가 세질수록 획을 하나씩 더했어요. 줄을 고르고 <b>획 더하기</b>를 눌러 보세요.</p>
+    <div class="card" style="margin-top:10px">
+      <div class="chips" id="gRows" role="group" aria-label="가획 줄 고르기"></div>
+      <div class="gahoek">
+        <div class="chain" id="gChain" aria-live="polite"></div>
+        <button class="chip primary" type="button" id="gNext">획 더하기 ▶</button>
+      </div>
+      <p class="muted" id="gMsg" style="margin:6px 0 0"></p>
+    </div>
+
+    <div class="note">
+      <b>📌 알아 두기</b><br>
+      · <b>이체자(ㆁ, ㄹ, ㅿ)</b>는 모양은 달라졌지만 획을 더한 것이 소리가 세지는 것과 관계없는 글자예요.<br>
+      · <b>ㄲ, ㄸ, ㅃ, ㅆ, ㅉ, ㆅ</b>처럼 같은 글자를 나란히 쓴 것(각자 병서)과 <b>ㅸ</b>처럼 위아래로 이어 쓴 것(연서)은 28자에 들어가지 않아요. 1차시에 본 <span class="old">ᄒᆡᅇᅧ</span>, <span class="old">수ᄫᅵ</span>를 떠올려 보세요.
+    </div>
+  </section>
+
+  <!-- 모음 -->
+  <section id="vowel">
+    <span class="step-tag">③ 모음 만들기 · 15분</span>
+    <h2>모음 11자: 하늘·땅·사람(천지인)</h2>
+    <p class="muted">모음은 세 개의 기본자를 만들고, 이를 <b>합쳐서(합성)</b> 나머지를 만들었어요.</p>
+
+    <div class="three">
+      <div class="card"><div class="sym">ㆍ</div><div class="what">하늘(天)</div><small class="muted">둥근 하늘을 본뜸</small></div>
+      <div class="card"><div class="sym">ㅡ</div><div class="what">땅(地)</div><small class="muted">평평한 땅을 본뜸</small></div>
+      <div class="card"><div class="sym">ㅣ</div><div class="what">사람(人)</div><small class="muted">서 있는 사람을 본뜸</small></div>
+    </div>
+
+    <h3>🧩 모음 만들기 체험</h3>
+    <div class="card builder">
+      <div>
+        <div class="row">
+          <div>① 기준이 되는 획</div>
+          <div class="chips" id="bBase" role="group" aria-label="기준 획">
+            <button type="button" class="chip" data-v="ㅡ" aria-pressed="true">ㅡ (땅)</button>
+            <button type="button" class="chip" data-v="ㅣ" aria-pressed="false">ㅣ (사람)</button>
+          </div>
+        </div>
+        <div class="row">
+          <div>② ㆍ(하늘)를 붙이는 자리</div>
+          <div class="chips" id="bPos" role="group" aria-label="ㆍ 위치"></div>
+        </div>
+        <div class="row">
+          <div>③ ㆍ의 개수</div>
+          <div class="chips" id="bCount" role="group" aria-label="ㆍ 개수">
+            <button type="button" class="chip" data-v="1" aria-pressed="true">1개 (초출자)</button>
+            <button type="button" class="chip" data-v="2" aria-pressed="false">2개 (재출자)</button>
+          </div>
+        </div>
+        <p class="muted" id="bExplain" style="margin:0;font-size:.93rem"></p>
+      </div>
+      <div class="result">
+        <svg id="bSvg" viewBox="0 0 120 120" aria-hidden="true"></svg>
+        <div class="v" id="bV"></div>
+        <div id="bBadge"></div>
+      </div>
+    </div>
+
+    <h3>📋 모음 11자 한눈에 보기</h3>
+    <div class="rowlabel">기본자 (상형)</div>
+    <div class="vgrid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="vcell"><div class="v">ㆍ</div><small>하늘 · 양성</small></div>
+      <div class="vcell"><div class="v">ㅡ</div><small>땅 · 음성</small></div>
+      <div class="vcell"><div class="v">ㅣ</div><small>사람 · 중성</small></div>
+    </div>
+    <div class="rowlabel">초출자 (ㆍ 1개 + 합성)</div>
+    <div class="vgrid">
+      <div class="vcell yang"><div class="v">ㅗ</div><small>ㆍ + ㅡ</small></div>
+      <div class="vcell yang"><div class="v">ㅏ</div><small>ㅣ + ㆍ</small></div>
+      <div class="vcell eum"><div class="v">ㅜ</div><small>ㅡ + ㆍ</small></div>
+      <div class="vcell eum"><div class="v">ㅓ</div><small>ㆍ + ㅣ</small></div>
+    </div>
+    <div class="rowlabel">재출자 (ㆍ 2개 + 합성)</div>
+    <div class="vgrid">
+      <div class="vcell yang"><div class="v">ㅛ</div><small>ㆍㆍ + ㅡ</small></div>
+      <div class="vcell yang"><div class="v">ㅑ</div><small>ㅣ + ㆍㆍ</small></div>
+      <div class="vcell eum"><div class="v">ㅠ</div><small>ㅡ + ㆍㆍ</small></div>
+      <div class="vcell eum"><div class="v">ㅕ</div><small>ㆍㆍ + ㅣ</small></div>
+    </div>
+    <div class="legend" style="margin-top:12px">
+      <span class="badge yang">양성 모음</span><span>ㆍ가 위나 오른쪽(밖)에 있어요</span>
+      <span class="badge eum">음성 모음</span><span>ㆍ가 아래나 왼쪽(안)에 있어요</span>
+    </div>
+    <div class="note">
+      <b>🔗 1차시와 연결하기:</b> 1차시에 배운 <b>모음 조화</b>를 떠올려 보세요. 양성 모음(ㆍ, ㅏ, ㅗ)끼리, 음성 모음(ㅡ, ㅓ, ㅜ)끼리 어울렸지요. 글자 모양 안에 이미 양성·음성의 구분이 담겨 있어요.
+    </div>
+  </section>
+
+  <!-- 퀴즈 -->
+  <section id="quiz">
+    <span class="step-tag">④ 퀴즈·정리 · 10분</span>
+    <h2>오늘 배운 내용 확인하기</h2>
+    <div id="quizBox"></div>
+    <div class="score" id="score" aria-live="polite"></div>
+    <button class="reset" id="resetQuiz" type="button">다시 풀기</button>
+
+    <div class="card" style="margin-top:22px">
+      <b>✍️ 정리하기</b>
+      <ul class="summary-list">
+        <li><b>자음 17자:</b> 발음 기관을 본떠 기본자 ㄱ, ㄴ, ㅁ, ㅅ, ㅇ을 만들고(상형), 소리가 세지면 획을 더했어요(가획). ㆁ, ㄹ, ㅿ은 이체자예요.</li>
+        <li><b>모음 11자:</b> 하늘(ㆍ), 땅(ㅡ), 사람(ㅣ)을 본떠 기본자를 만들고(상형), 이를 합쳐 초출자 4자, 재출자 4자를 만들었어요(합성).</li>
+        <li>적은 수의 기본자에서 체계적으로 글자를 늘려 나간 점이 <b>한글의 과학성</b>이에요.</li>
+      </ul>
+      <p style="margin:14px 0 0"><b>📝 생각 넓히기:</b> 'ㅋ'은 'ㄱ'보다 소리가 셉니다. 'ㅌ'과 'ㄷ', 'ㅍ'과 'ㅂ'도 소리 내어 비교해 보고, 획이 많을수록 소리가 어떻게 달라지는지 써 보세요.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    중학교 2학년 국어 수업 자료 · 참고: 《훈민정음》 해례본(1446) 제자해 ·
+    <a href="index.html">← 1차시: 훈민정음 서문으로 배우는 중세 국어</a>
+  </div>
+</footer>
+
+<script>
+  const $ = (s) => document.querySelector(s);
+
+  // ===== 자음 =====
+  const ROWS = [
+    { name:"어금닛소리", han:"아음(牙音)", cells:["ㄱ", null, "ㅋ", null, null, "ㆁ"] },
+    { name:"혓소리",     han:"설음(舌音)", cells:["ㄴ", null, "ㄷ", null, "ㅌ", "ㄹ"] },
+    { name:"입술소리",   han:"순음(脣音)", cells:["ㅁ", null, "ㅂ", null, "ㅍ", null] },
+    { name:"잇소리",     han:"치음(齒音)", cells:["ㅅ", null, "ㅈ", null, "ㅊ", "ㅿ"] },
+    { name:"목소리",     han:"후음(喉音)", cells:["ㅇ", null, "ㆆ", null, "ㅎ", null] }
+  ];
+  const INFO = {
+    "ㄱ": ["기본자 · 상형", "혀뿌리가 목구멍을 막는 모양을 본떴어요. 어금닛소리의 기본자예요."],
+    "ㅋ": ["가획자", "ㄱ에 획을 하나 더했어요. ㄱ보다 소리가 세요(거센소리)."],
+    "ㆁ": ["이체자", "옛이응. 어금닛소리지만 목소리 ㅇ과 소리가 비슷해 ㅇ에 꼭지를 단 모양으로 따로 만들었어요. 지금의 받침 'ㅇ'[ŋ] 소리예요."],
+    "ㄴ": ["기본자 · 상형", "혀끝이 윗잇몸에 닿는 모양을 본떴어요. 혓소리의 기본자예요."],
+    "ㄷ": ["가획자", "ㄴ에 획을 하나 더했어요. ㄴ보다 소리가 세요."],
+    "ㅌ": ["가획자", "ㄷ에 획을 하나 더 더했어요. ㄷ보다 소리가 세요(거센소리)."],
+    "ㄹ": ["이체자", "반혓소리(반설음). 혀의 모양을 본떴지만 획을 더한 것이 소리가 세지는 것과 관계없어요."],
+    "ㅁ": ["기본자 · 상형", "입의 모양을 본떴어요. 입술소리의 기본자예요."],
+    "ㅂ": ["가획자", "ㅁ에 획을 더했어요. ㅁ보다 소리가 세요."],
+    "ㅍ": ["가획자", "ㅂ에 획을 더 더했어요. ㅂ보다 소리가 세요(거센소리)."],
+    "ㅅ": ["기본자 · 상형", "이의 모양을 본떴어요. 잇소리의 기본자예요."],
+    "ㅈ": ["가획자", "ㅅ에 획을 더했어요. ㅅ보다 소리가 세요."],
+    "ㅊ": ["가획자", "ㅈ에 획을 더 더했어요. ㅈ보다 소리가 세요(거센소리)."],
+    "ㅿ": ["이체자", "반잇소리(반치음). 지금은 쓰지 않는 글자로, 영어 z와 비슷한 소리였다고 해요."],
+    "ㅇ": ["기본자 · 상형", "목구멍의 모양을 본떴어요. 목소리의 기본자예요."],
+    "ㆆ": ["가획자", "여린히읗. ㅇ에 획을 더했어요. 지금은 쓰지 않는 글자예요. 1차시의 '安ᅙᅡᆫ'에 나왔어요."],
+    "ㅎ": ["가획자", "ㆆ에 획을 더 더했어요. 소리가 가장 세요."]
+  };
+  const KIND = (r, ci) => ci === 0 ? "base" : (ci === 5 ? "odd" : "");
+  const cTable = $("#cTable");
+  ROWS.forEach((r, ri) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<th>${r.name}<small>${r.han}</small></th>`;
+    // 열: 기본자, 화살표, 가획1, 화살표, 가획2, 이체
+    const layout = [r.cells[0], "→", r.cells[2], r.cells[4] ? "→" : "", r.cells[4], r.cells[5]];
+    layout.forEach((v, ci) => {
+      const td = document.createElement("td");
+      if (ci === 1 || ci === 3) { td.className = "arrow"; td.textContent = v; }
+      else if (v) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "letter " + KIND(r, ci);
+        b.textContent = v;
+        b.setAttribute("aria-pressed", "false");
+        b.setAttribute("aria-label", `${v}, ${INFO[v][0]}`);
+        b.addEventListener("click", () => showConsonant(v, b));
+        td.appendChild(b);
+      }
+      tr.appendChild(td);
+    });
+    cTable.appendChild(tr);
+  });
+  function showConsonant(v, btn) {
+    document.querySelectorAll(".letter").forEach(x => x.setAttribute("aria-pressed", "false"));
+    btn.setAttribute("aria-pressed", "true");
+    const d = $("#cDetail");
+    d.innerHTML = `<div class="big"></div><div><span class="kind"></span><div class="txt"></div></div>`;
+    d.querySelector(".big").textContent = v;
+    d.querySelector(".kind").textContent = INFO[v][0];
+    d.querySelector(".txt").textContent = INFO[v][1];
+  }
+
+  // ===== 가획 체험 =====
+  const CHAINS = [
+    { label:"ㄱ 줄", seq:["ㄱ","ㅋ"] },
+    { label:"ㄴ 줄", seq:["ㄴ","ㄷ","ㅌ"] },
+    { label:"ㅁ 줄", seq:["ㅁ","ㅂ","ㅍ"] },
+    { label:"ㅅ 줄", seq:["ㅅ","ㅈ","ㅊ"] },
+    { label:"ㅇ 줄", seq:["ㅇ","ㆆ","ㅎ"] }
+  ];
+  let gIdx = 1, gStep = 0;
+  const gRows = $("#gRows"), gChain = $("#gChain"), gMsg = $("#gMsg"), gNext = $("#gNext");
+  CHAINS.forEach((c, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = c.label;
+    b.addEventListener("click", () => { gIdx = i; gStep = 0; renderChain(); });
+    gRows.appendChild(b);
+  });
+  function renderChain() {
+    gRows.querySelectorAll(".chip").forEach((b, i) => b.setAttribute("aria-pressed", String(i === gIdx)));
+    const seq = CHAINS[gIdx].seq;
+    gChain.innerHTML = "";
+    seq.forEach((ch, i) => {
+      if (i) { const s = document.createElement("span"); s.className = "sep show"; s.textContent = "+획 →"; s.style.opacity = i <= gStep ? 1 : .2; gChain.appendChild(s); }
+      const sp = document.createElement("span"); sp.textContent = ch; if (i <= gStep) sp.className = "show"; gChain.appendChild(sp);
+    });
+    const done = gStep >= seq.length - 1;
+    gNext.textContent = done ? "처음부터 ↺" : "획 더하기 ▶";
+    gMsg.textContent = gStep === 0
+      ? `${seq[0]}은(는) 발음 기관을 본뜬 기본자예요.`
+      : `${seq[gStep - 1]}에 획을 더해 ${seq[gStep]}이(가) 되었어요. 소리가 더 세졌어요!`;
+  }
+  gNext.addEventListener("click", () => {
+    const len = CHAINS[gIdx].seq.length;
+    gStep = gStep >= len - 1 ? 0 : gStep + 1;
+    renderChain();
+  });
+  renderChain();
+
+  // ===== 모음 만들기 =====
+  const VMAP = {
+    "ㅡ|위|1":"ㅗ", "ㅡ|아래|1":"ㅜ", "ㅡ|위|2":"ㅛ", "ㅡ|아래|2":"ㅠ",
+    "ㅣ|오른쪽|1":"ㅏ", "ㅣ|왼쪽|1":"ㅓ", "ㅣ|오른쪽|2":"ㅑ", "ㅣ|왼쪽|2":"ㅕ"
+  };
+  const state = { base:"ㅡ", pos:"위", count:"1" };
+  const bBase = $("#bBase"), bPos = $("#bPos"), bCount = $("#bCount");
+  function setPressed(group, val) { group.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === val))); }
+  function renderPos() {
+    const opts = state.base === "ㅡ" ? ["위","아래"] : ["오른쪽","왼쪽"];
+    if (!opts.includes(state.pos)) state.pos = opts[0];
+    bPos.innerHTML = "";
+    opts.forEach(o => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "chip"; b.dataset.v = o; b.textContent = o;
+      b.addEventListener("click", () => { state.pos = o; renderVowel(); });
+      bPos.appendChild(b);
+    });
+  }
+  function renderVowel() {
+    setPressed(bBase, state.base); setPressed(bPos, state.pos); setPressed(bCount, state.count);
+    const v = VMAP[`${state.base}|${state.pos}|${state.count}`];
+    const yang = state.pos === "위" || state.pos === "오른쪽";
+    $("#bV").textContent = v;
+    $("#bBadge").innerHTML = yang ? '<span class="badge yang">양성 모음</span>' : '<span class="badge eum">음성 모음</span>';
+    $("#bExplain").textContent =
+      `${state.base}의 ${state.pos}에 ㆍ를 ${state.count}개 붙이면 '${v}'가 돼요. ` +
+      (yang ? "ㆍ(하늘)가 위나 바깥(오른쪽)에 있어 밝은 느낌의 양성 모음이에요." : "ㆍ(하늘)가 아래나 안쪽(왼쪽)에 있어 어두운 느낌의 음성 모음이에요.") +
+      (state.count === "2" ? " ㆍ가 두 개인 글자는 'ㅣ' 소리에서 시작하는 재출자예요." : " ㆍ가 하나인 글자는 초출자예요.");
+    // 그림: 획은 선, ㆍ는 원
+    const color = getComputedStyle(document.documentElement).getPropertyValue(yang ? "--yang" : "--eum").trim();
+    const ink = getComputedStyle(document.documentElement).getPropertyValue("--ink").trim();
+    let svg = "";
+    if (state.base === "ㅡ") svg += `<rect x="18" y="56" width="84" height="8" rx="4" fill="${ink}"/>`;
+    else svg += `<rect x="56" y="14" width="8" height="92" rx="4" fill="${ink}"/>`;
+    const n = Number(state.count);
+    const offs = n === 1 ? [0] : [-14, 14];
+    offs.forEach(o => {
+      let cx, cy;
+      if (state.pos === "위") { cx = 60 + o; cy = 36; }
+      if (state.pos === "아래") { cx = 60 + o; cy = 84; }
+      if (state.pos === "오른쪽") { cx = 84; cy = 60 + o; }
+      if (state.pos === "왼쪽") { cx = 36; cy = 60 + o; }
+      svg += `<circle cx="${cx}" cy="${cy}" r="8" fill="${color}"/>`;
+    });
+    $("#bSvg").innerHTML = svg;
+  }
+  bBase.addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; state.base = b.dataset.v; renderPos(); renderVowel(); });
+  bCount.addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; state.count = b.dataset.v; renderVowel(); });
+  renderPos(); renderVowel();
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderVowel);
+
+  // ===== 퀴즈 =====
+  const QUIZ = [
+    { q:"다음 중 자음의 <b>기본자</b>가 아닌 것은?", opts:["ㄱ","ㄴ","ㅂ","ㅅ"], a:2,
+      e:"ㅂ은 ㅁ에 획을 더한 가획자예요. 기본자는 ㄱ, ㄴ, ㅁ, ㅅ, ㅇ이에요." },
+    { q:"'ㄱ'은 무엇의 모양을 본뜬 글자일까요?", opts:["혀뿌리가 목구멍을 막는 모양","입의 모양","이의 모양","목구멍의 모양"], a:0,
+      e:"ㄱ은 혀뿌리가 목구멍을 막는 모양을 본떴어요. 입은 ㅁ, 이는 ㅅ, 목구멍은 ㅇ이에요." },
+    { q:"'ㄴ → ㄷ → ㅌ'처럼 소리가 세짐에 따라 획을 더해 글자를 만든 원리는?", opts:["상형","가획","이체","합성"], a:1,
+      e:"획을 더하는 원리를 가획이라고 해요." },
+    { q:"모양은 달라졌지만 획을 더한 것이 소리가 세지는 것과 관계없는 글자는?", opts:["ㅋ","ㅎ","ㄹ","ㅊ"], a:2,
+      e:"ㄹ은 이체자예요. 이체자에는 ㆁ, ㄹ, ㅿ이 있어요." },
+    { q:"모음의 기본자 'ㆍ, ㅡ, ㅣ'가 본뜬 것은?", opts:["하늘, 땅, 사람","해, 달, 별","입, 혀, 이","산, 물, 나무"], a:0,
+      e:"ㆍ는 둥근 하늘, ㅡ는 평평한 땅, ㅣ는 서 있는 사람을 본떴어요(천지인)." },
+    { q:"'ㅣ'의 오른쪽에 'ㆍ'를 하나 붙여 만든 모음은?", opts:["ㅏ","ㅓ","ㅗ","ㅑ"], a:0,
+      e:"ㅣ + ㆍ(오른쪽) = ㅏ. ㆍ가 바깥에 있으니 양성 모음이에요." },
+    { q:"훈민정음 28자는 자음 몇 자와 모음 몇 자로 이루어져 있을까요?", opts:["자음 14 + 모음 14","자음 17 + 모음 11","자음 19 + 모음 9","자음 18 + 모음 10"], a:1,
+      e:"자음(초성) 17자와 모음(중성) 11자, 모두 28자예요." }
+  ];
+  const quizBox = $("#quizBox"), scoreEl = $("#score");
+  let answered = 0, correct = 0;
+  function renderQuiz() {
+    quizBox.innerHTML = ""; answered = 0; correct = 0; scoreEl.textContent = "";
+    QUIZ.forEach((item, qi) => {
+      const box = document.createElement("div");
+      box.className = "card q";
+      box.innerHTML = `<h3>${qi + 1}. ${item.q}</h3><div class="opts"></div><div class="fb" aria-live="polite"></div>`;
+      const opts = box.querySelector(".opts"), fb = box.querySelector(".fb");
+      item.opts.forEach((o, oi) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "opt"; b.textContent = o;
+        b.addEventListener("click", () => {
+          opts.querySelectorAll(".opt").forEach((x, xi) => { x.disabled = true; if (xi === item.a) x.classList.add("right"); });
+          if (oi === item.a) { correct++; fb.textContent = "⭕ 정답! "; }
+          else { b.classList.add("wrong"); fb.textContent = "❌ 아쉬워요. "; }
+          fb.appendChild(document.createTextNode(item.e));
+          answered++;
+          if (answered === QUIZ.length) {
+            scoreEl.textContent = `🎉 ${QUIZ.length}문제 중 ${correct}문제를 맞혔어요!` +
+              (correct === QUIZ.length ? " 완벽해요!" : " 틀린 문제는 위에서 다시 확인해 보세요.");
+          }
+        });
+        opts.appendChild(b);
+      });
+      quizBox.appendChild(box);
+    });
+  }
+  $("#resetQuiz").addEventListener("click", renderQuiz);
+  renderQuiz();
+</script>
+</body>
+</html>
