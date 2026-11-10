@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>훈민정음 서문으로 배우는 중세 국어</title>
+<meta name="description" content="중학교 2학년 국어 1차시 – 《월인석보》 훈민정음 언해 서문으로 후기 중세 국어의 특징을 탐구합니다.">
+<style>
+  :root {
+    --bg: #faf7f0;
+    --surface: #ffffff;
+    --ink: #1f1d1a;
+    --muted: #6b655c;
+    --line: #e4ddd0;
+    --accent: #9c3d2a;
+    --accent-soft: #f6e4dc;
+    --hl: #ffe08a;
+    --ok: #2f7a4a;
+    --ok-soft: #e1f2e6;
+    --bad: #b3362b;
+    --bad-soft: #fbe3e0;
+    --radius: 14px;
+    --oldfont: "Malgun Gothic", "맑은 고딕", "Noto Sans CJK KR", "Source Han Sans K", "Apple SD Gothic Neo", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #181715; --surface: #23211e; --ink: #f1ece3; --muted: #a9a196;
+      --line: #3a3631; --accent: #e58a6f; --accent-soft: #3d2a23; --hl: #6b5512;
+      --ok: #7fd09a; --ok-soft: #1f3527; --bad: #f08a7e; --bad-soft: #3d2320;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #181715; --surface: #23211e; --ink: #f1ece3; --muted: #a9a196;
+    --line: #3a3631; --accent: #e58a6f; --accent-soft: #3d2a23; --hl: #6b5512;
+    --ok: #7fd09a; --ok-soft: #1f3527; --bad: #f08a7e; --bad-soft: #3d2320;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.7; word-break: keep-all;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
+  header.hero { padding: 48px 0 24px; border-bottom: 1px solid var(--line); }
+  .eyebrow { color: var(--accent); font-weight: 700; font-size: .9rem; letter-spacing: .04em; }
+  h1 { font-size: clamp(1.6rem, 4.5vw, 2.4rem); line-height: 1.3; margin: 6px 0 10px; }
+  h2 { font-size: 1.35rem; margin: 0 0 4px; }
+  .lead { color: var(--muted); margin: 0; }
+  nav.steps { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+  nav.steps ol { display: flex; gap: 6px; list-style: none; margin: 0; padding: 10px 0; overflow-x: auto; }
+  nav.steps a {
+    display: block; white-space: nowrap; text-decoration: none; color: var(--ink);
+    padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: .9rem;
+  }
+  nav.steps a span { color: var(--muted); font-size: .8rem; margin-left: 4px; }
+  section { padding: 36px 0; border-bottom: 1px solid var(--line); }
+  .step-tag { display: inline-block; font-size: .8rem; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 2px 10px; border-radius: 999px; margin-bottom: 8px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .muted { color: var(--muted); }
+  button { font: inherit; cursor: pointer; }
+
+  /* 연표 */
+  .timeline { margin-top: 18px; overflow-x: auto; }
+  .tl { position: relative; min-width: 640px; display: grid; grid-template-columns: 1fr 1.1fr 1fr 1fr .8fr; }
+  .tl .era { padding: 10px 8px; text-align: center; border-right: 2px solid var(--line); font-weight: 700; }
+  .tl .era small { display: block; font-weight: 400; color: var(--muted); font-size: .8rem; }
+  .tl .era.now { background: var(--accent-soft); border-radius: 10px 10px 0 0; color: var(--accent); }
+  .tl .marks { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.1fr 1fr 1fr .8fr; border-top: 3px solid var(--ink); font-size: .82rem; }
+  .tl .marks div { text-align: right; padding: 4px 4px 0 0; color: var(--muted); }
+  .tl .marks b { color: var(--ink); }
+  .question { margin-top: 18px; font-size: 1.05rem; }
+
+  /* 원문 */
+  .text-tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+  .chip {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    padding: 6px 12px; border-radius: 999px; font-size: .88rem;
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .original {
+    font-family: var(--oldfont); font-size: clamp(1.25rem, 3.6vw, 1.6rem); line-height: 2.3;
+  }
+  .original .title { display: block; text-align: center; font-size: 1.1em; margin-bottom: 8px; letter-spacing: .05em; }
+  .tok {
+    display: inline; border: 0; background: transparent; color: inherit; font: inherit;
+    padding: 0 2px; margin: 0 1px; border-radius: 6px; border-bottom: 2px dotted transparent;
+  }
+  .tok:hover, .tok:focus-visible { border-bottom-color: var(--accent); outline: none; }
+  .tok.on { background: var(--hl); }
+  .tok.sel { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .info {
+    margin-top: 14px; min-height: 92px; border-left: 4px solid var(--accent);
+    background: var(--accent-soft); border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 18px;
+  }
+  .info .w { font-family: var(--oldfont); font-size: 1.4rem; font-weight: 700; }
+  .info .m { font-size: 1.05rem; }
+  .info .tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .info .tags span { font-size: .8rem; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; }
+  .modern { margin-top: 16px; }
+  .modern summary { cursor: pointer; font-weight: 700; }
+  .modern p { margin: 10px 0 0; }
+  .src { text-align: right; font-size: .85rem; color: var(--muted); margin-top: 4px; }
+
+  /* 특징 카드 */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; margin-top: 18px; }
+  .feat { position: relative; }
+  .feat .num { position: absolute; top: 14px; right: 16px; font-size: 1.6rem; font-weight: 800; color: var(--line); }
+  .feat h3 { margin: 0 0 6px; font-size: 1.05rem; padding-right: 32px; }
+  .feat p { margin: 0 0 8px; font-size: .95rem; }
+  .feat .ex { font-family: var(--oldfont); font-size: 1.05rem; background: var(--bg); border-radius: 8px; padding: 6px 10px; }
+  .feat .find { margin-top: 10px; }
+  .callout { margin-top: 18px; border: 1px dashed var(--accent); border-radius: var(--radius); padding: 14px 18px; }
+
+  /* 퀴즈 */
+  .q { margin-top: 14px; }
+  .q h3 { font-size: 1rem; margin: 0 0 10px; }
+  .q .old { font-family: var(--oldfont); }
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 10px; padding: 8px 14px; font-family: var(--oldfont); }
+  .opt:disabled { cursor: default; }
+  .opt.right { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); font-weight: 700; }
+  .opt.wrong { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); text-decoration: line-through; }
+  .fb { margin-top: 8px; font-size: .93rem; min-height: 1.5em; }
+  .score { margin-top: 18px; font-size: 1.1rem; font-weight: 700; }
+  .reset { margin-top: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 8px 14px; }
+  .summary-list { margin: 10px 0 0; padding-left: 1.2em; }
+  footer { padding: 28px 0 48px; color: var(--muted); font-size: .85rem; }
+  @media (max-width: 520px) {
+    .card { padding: 16px; }
+    section { padding: 28px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">중학교 2학년 국어 · 1차시 (45분)</div>
+    <h1>훈민정음 서문으로 배우는<br>중세 국어의 특징</h1>
+    <p class="lead">학습 목표: 《월인석보》에 실린 훈민정음 서문을 읽고, 후기 중세 국어가 현대 국어와 어떻게 다른지 설명할 수 있다.</p>
+  </div>
+</header>
+
+<nav class="steps" aria-label="수업 단계">
+  <div class="wrap">
+    <ol>
+      <li><a href="#intro">① 도입<span>5분</span></a></li>
+      <li><a href="#read">② 원문 읽기<span>10분</span></a></li>
+      <li><a href="#features">③ 특징 탐구<span>20분</span></a></li>
+      <li><a href="#quiz">④ 확인 퀴즈<span>10분</span></a></li>
+    </ol>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- 도입 -->
+  <section id="intro">
+    <span class="step-tag">① 도입 · 5분</span>
+    <h2>국어는 어떻게 변해 왔을까?</h2>
+    <p class="muted">오늘 살펴볼 시기는 한글이 만들어진 뒤부터 임진왜란 전까지인 <b>후기 중세 국어</b>예요.</p>
+    <div class="timeline card">
+      <div class="tl">
+        <div class="era">고대 국어<small>삼국~통일 신라</small></div>
+        <div class="era">전기 중세 국어<small>고려</small></div>
+        <div class="era now">후기 중세 국어<small>훈민정음 창제 이후</small></div>
+        <div class="era">근대 국어<small>임진왜란 이후</small></div>
+        <div class="era" style="border-right:0">현대 국어<small>갑오개혁 이후</small></div>
+        <div class="marks">
+          <div><b>918</b> 고려 건국</div>
+          <div><b>1443/1446</b> 훈민정음 창제·반포</div>
+          <div><b>1592</b> 임진왜란</div>
+          <div><b>1894</b> 갑오개혁</div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+    <p class="question">🤔 <b>생각 열기:</b> 아래 문장을 소리 내어 읽어 볼까요? 어떤 점이 지금의 글과 다른가요?</p>
+    <p class="card original" style="text-align:center">나랏 말ᄊᆞ미 中듕國귁에 달아</p>
+  </section>
+
+  <!-- 원문 읽기 -->
+  <section id="read">
+    <span class="step-tag">② 원문 읽기 · 10분</span>
+    <h2>세종어제훈민정음 서문</h2>
+    <p class="muted">낱말을 누르면 현대어 뜻과 문법 특징이 나와요. 아래 버튼을 누르면 해당 특징이 나타난 낱말이 노랗게 표시돼요.</p>
+
+    <div class="text-tools" id="filters" role="group" aria-label="특징별 표시"></div>
+
+    <div class="card">
+      <div class="original" id="original"></div>
+      <div class="src">― 《월인석보》 권1, 세조 5년(1459). 방점은 생략함.</div>
+      <div class="info" id="info" aria-live="polite">
+        <div class="m muted">낱말을 눌러 보세요.</div>
+      </div>
+      <details class="modern">
+        <summary>현대어 풀이 보기</summary>
+        <p>우리나라의 말이 중국과 달라 한자와 서로 통하지 아니하므로, 이런 까닭으로 어리석은 백성이 말하고자 하는 바가 있어도 마침내 제 뜻을 능히 펴지 못하는 사람이 많다. 내가 이를 위하여 가엾게 여겨 새로 스물여덟 글자를 만드니, 사람마다 하여금 쉽게 익혀 날마다 씀에 편안하게 하고자 할 따름이다.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- 특징 탐구 -->
+  <section id="features">
+    <span class="step-tag">③ 특징 탐구 · 20분</span>
+    <h2>후기 중세 국어의 특징 8가지</h2>
+    <p class="muted">카드의 <b>원문에서 찾기</b>를 누르면 ② 원문 읽기로 이동해 해당 낱말을 보여 줘요.</p>
+    <div class="grid" id="featGrid"></div>
+
+    <div class="callout">
+      <b>📌 더 알아보기: 표기에 관한 특징</b>
+      <ul class="summary-list">
+        <li><b>세로쓰기</b>를 하고 <b>띄어쓰기를 하지 않았어요.</b> (이 화면은 읽기 쉽게 가로로, 낱말별로 나누어 보여 줘요.)</li>
+        <li><b>성조</b>가 있어서 글자 왼쪽에 <b>방점</b>(·, :)을 찍었어요. 성조와 방점은 16세기 후반에 사라졌어요.</li>
+        <li><b>종성부용초성</b>: 받침에 초성 글자를 다시 쓴다는 원리예요. 실제로는 ㄱ, ㄴ, ㄷ, ㄹ, ㅁ, ㅂ, ㅅ, ㆁ의 <b>8종성법</b>을 따랐어요.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 퀴즈 -->
+  <section id="quiz">
+    <span class="step-tag">④ 확인 퀴즈 · 10분</span>
+    <h2>오늘 배운 내용 확인하기</h2>
+    <div id="quizBox"></div>
+    <div class="score" id="score" aria-live="polite"></div>
+    <button class="reset" id="resetQuiz" type="button">다시 풀기</button>
+
+    <div class="card" style="margin-top:22px">
+      <b>✍️ 정리하기</b>
+      <ul class="summary-list">
+        <li>후기 중세 국어는 훈민정음 창제(1443)부터 임진왜란(1592)까지의 국어예요.</li>
+        <li>소리 나는 대로 이어 적었고, 첫머리에 서로 다른 자음을 겹쳐 썼으며(합용 병서), 모음 조화를 잘 지켰어요.</li>
+        <li>주격 조사는 '이 / ㅣ / ∅' 세 가지로 나타났고 '가'는 아직 없었어요.</li>
+        <li>'어리다(어리석다)', '어엿브다(가엾다)', '하다(많다)'처럼 뜻이 바뀐 낱말이 있어요.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">중학교 2학년 국어 수업 자료 · 원문 출처: 《월인석보》 권1(1459) · 옛한글은 '맑은 고딕' 등 옛한글을 지원하는 글꼴에서 가장 잘 보여요.</div>
+</footer>
+
+<script>
+  // 특징 정의
+  const FEATURES = {
+    yeon:  { name: "이어 적기", short: "이어 적기" },
+    hap:   { name: "합용 병서(어두 자음군)", short: "합용 병서" },
+    gak:   { name: "각자 병서", short: "각자 병서" },
+    vow:   { name: "모음 조화", short: "모음 조화" },
+    subj:  { name: "주격 조사 '이/ㅣ'", short: "주격 조사" },
+    comp:  { name: "비교 부사격 조사 '에'", short: "비교 '에'" },
+    gwan:  { name: "관형격 조사 'ㅅ'", short: "관형격 'ㅅ'" },
+    dong:  { name: "동국정운식 한자음", short: "동국정운" },
+    phon:  { name: "구개음화·두음 법칙 없음", short: "구개음화·두음 X" },
+    lex:   { name: "뜻이 바뀐 어휘", short: "어휘 변화" },
+    old:   { name: "지금은 쓰지 않는 글자(ㆍ, ㅸ, ㆆ 등)", short: "옛 글자" }
+  };
+
+  // 원문 낱말: t=원문, m=현대어, f=특징, n=설명
+  const TOKENS = [
+    { t:"나랏", m:"나라의", f:["gwan"], n:"'나라 + ㅅ'. 'ㅅ'은 관형격 조사로, 지금의 '의'에 해당해요." },
+    { t:"말ᄊᆞ미", m:"말이", f:["yeon","old"], n:"'말ᄊᆞᆷ + 이'를 소리 나는 대로 이어 적었어요. ㆍ(아래아)가 쓰였어요." },
+    { t:"中듕國귁에", m:"중국과", f:["dong","comp"], n:"한자 옆에 동국정운식 한자음(듕귁)을 달았어요. '에'는 비교 부사격 조사로 지금의 '과/와'예요." },
+    { t:"달아", m:"달라", f:[], n:"'다ᄅᆞ다(다르다)'의 활용형이에요." },
+    { t:"文문字ᄍᆞᆼ와로", m:"문자와", f:["dong","old"], n:"'字ᄍᆞᆼ'처럼 받침이 없는 한자음에도 ㅇ을 넣어 초성·중성·종성을 갖추었어요." },
+    { t:"서르", m:"서로", f:["vow"], n:"음성 모음 'ㅓ'와 'ㅡ'가 어울렸어요(모음 조화)." },
+    { t:"ᄉᆞᄆᆞᆺ디", m:"통하지", f:["phon","old","lex"], n:"'ᄉᆞᄆᆞᆺ다'는 '통하다, 꿰뚫다'라는 뜻. '디'가 '지'로 바뀌지 않았어요(구개음화 X)." },
+    { t:"아니ᄒᆞᆯᄊᆡ", m:"아니하므로", f:["old"], n:"'-ᄅᆞᆯᄊᆡ'는 이유를 나타내는 어미로, 지금의 '-므로'에 해당해요." },
+    { t:"이런", m:"이런", f:[], n:"지금과 같아요." },
+    { t:"젼ᄎᆞ로", m:"까닭으로", f:["lex","old"], n:"'젼ᄎᆞ'는 '까닭'이라는 뜻으로, 지금은 쓰지 않는 말이에요." },
+    { t:"어린", m:"어리석은", f:["lex"], n:"'어리다'는 '어리석다'라는 뜻이었어요. 지금은 '나이가 적다'로 뜻이 바뀌었어요(의미 이동)." },
+    { t:"百ᄇᆡᆨ姓셩이", m:"백성이", f:["dong","subj"], n:"자음으로 끝난 말 뒤에는 주격 조사 '이'를 썼어요." },
+    { t:"니르고져", m:"이르고자(말하고자)", f:["phon"], n:"첫소리 'ㄴ'이 'ㅇ'으로 바뀌지 않았어요(두음 법칙 X)." },
+    { t:"호ᇙ", m:"할", f:["old"], n:"받침 'ㅭ'(ㄹ+ㆆ)은 지금은 쓰지 않는 표기예요." },
+    { t:"배", m:"바가", f:["subj"], n:"'바 + ㅣ'. 모음으로 끝난 말 뒤에는 주격 조사 'ㅣ'를 써서 앞 글자와 합쳐 적었어요. 주격 조사 '가'는 아직 없었어요." },
+    { t:"이셔도", m:"있어도", f:[], n:"'이시다(있다)'의 활용형이에요." },
+    { t:"ᄆᆞᄎᆞᆷ내", m:"마침내", f:["old"], n:"ㆍ(아래아)가 쓰였어요." },
+    { t:"제", m:"제(자기의)", f:[], n:"'저 + ㅣ(관형격)'로 '자기의'라는 뜻이에요." },
+    { t:"ᄠᅳ들", m:"뜻을", f:["hap","yeon","vow"], n:"첫머리 'ㅳ'은 합용 병서로, 지금은 된소리 'ㄸ'이 되었어요. 'ᄠᅳᆮ + 을'을 이어 적었고 'ㅡ'와 'ㅡ'가 어울렸어요." },
+    { t:"시러", m:"능히", f:["lex"], n:"'능히, 제대로'라는 뜻이에요." },
+    { t:"펴디", m:"펴지", f:["phon"], n:"'디'가 '지'로 바뀌지 않았어요(구개음화 X)." },
+    { t:"몯", m:"못", f:[], n:"받침 'ㄷ'을 썼어요. 지금은 '못'으로 적어요." },
+    { t:"호ᇙ", m:"할", f:["old"], n:"받침 'ㅭ'(ㄹ+ㆆ)은 지금은 쓰지 않는 표기예요." },
+    { t:"노미", m:"사람이", f:["yeon","lex"], n:"'놈 + 이'를 이어 적었어요. '놈'은 낮잡는 뜻 없이 '사람'을 가리켰어요(의미 축소·하락)." },
+    { t:"하니라", m:"많다", f:["lex"], n:"'하다'는 '많다'라는 뜻이었어요." },
+    { t:"내", m:"내가", f:["subj"], n:"'나 + ㅣ'. 모음 뒤에서 주격 조사 'ㅣ'가 쓰였어요." },
+    { t:"이ᄅᆞᆯ", m:"이를", f:["vow","old"], n:"중성 모음 'ㅣ' 뒤에 양성 모음 'ㆍ'가 쓰였어요." },
+    { t:"爲윙ᄒᆞ야", m:"위하여", f:["dong","vow","old"], n:"'ᄒᆞ- + -야'. 양성 모음 'ㆍ' 뒤에 양성 모음 'ㅏ'가 왔어요(모음 조화)." },
+    { t:"어엿비", m:"가엾게", f:["lex"], n:"'어엿브다'는 '가엾다'라는 뜻이었어요. 지금의 '예쁘다'가 여기서 왔어요(의미 이동)." },
+    { t:"너겨", m:"여겨", f:[], n:"'너기다(여기다)'의 활용형이에요." },
+    { t:"새로", m:"새로", f:[], n:"지금과 같아요." },
+    { t:"스믈여듧", m:"스물여덟", f:[], n:"훈민정음의 기본 글자 수 28자를 말해요." },
+    { t:"字ᄍᆞᆼᄅᆞᆯ", m:"글자를", f:["dong","vow","old"], n:"양성 모음 'ㆍ' 뒤에 목적격 조사 'ᄅᆞᆯ'이 왔어요(모음 조화)." },
+    { t:"ᄆᆡᇰᄀᆞ노니", m:"만드니", f:["old"], n:"'ᄆᆡᇰᄀᆞᆯ다(만들다)'의 활용형이에요. 받침 ㆁ(옛이응)은 지금의 받침 'ㅇ' 소리예요." },
+    { t:"사ᄅᆞᆷ마다", m:"사람마다", f:["old"], n:"ㆍ(아래아)가 쓰였어요." },
+    { t:"ᄒᆡᅇᅧ", m:"하여금", f:["gak","old"], n:"'ᅇ'처럼 같은 자음을 나란히 쓰는 것을 각자 병서라고 해요." },
+    { t:"수ᄫᅵ", m:"쉽게", f:["old"], n:"'ㅸ'(순경음 비읍)은 지금은 쓰지 않는 글자예요." },
+    { t:"니겨", m:"익혀", f:["phon"], n:"'니기다(익히다)'. 두음 법칙이 적용되지 않았어요." },
+    { t:"날로", m:"날마다", f:[], n:"'날마다'라는 뜻이에요." },
+    { t:"ᄡᅮ메", m:"씀에", f:["hap","yeon","vow"], n:"첫머리 'ㅄ'은 합용 병서로 지금은 된소리 'ㅆ'이 되었어요. 'ᄡᅳ- + -움 + 에'를 이어 적었어요." },
+    { t:"便뼌安ᅙᅡᆫ킈", m:"편안하게", f:["dong","old"], n:"'安ᅙᅡᆫ'에 'ㆆ'(여린히읗)이 쓰였어요." },
+    { t:"ᄒᆞ고져", m:"하고자", f:["old"], n:"ㆍ(아래아)가 쓰였어요." },
+    { t:"호ᇙ", m:"할", f:["old"], n:"받침 'ㅭ'(ㄹ+ㆆ)은 지금은 쓰지 않는 표기예요." },
+    { t:"ᄯᆞᄅᆞ미니라", m:"따름이다", f:["hap","yeon","old"], n:"첫머리 'ㅼ'은 합용 병서로 지금은 'ㄸ'이 되었어요. 'ᄯᆞᄅᆞᆷ + 이니라'를 이어 적었어요." }
+  ];
+
+  const CARDS = [
+    { key:"yeon", title:"이어 적기(연철)", desc:"받침을 다음 음절의 첫소리로 옮겨, 소리 나는 대로 적었어요.", ex:"말ᄊᆞᆷ + 이 → 말ᄊᆞ미" },
+    { key:"hap", title:"합용 병서(어두 자음군)", desc:"단어 첫머리에 서로 다른 자음을 겹쳐 썼어요. 이 자음들은 지금 된소리가 되었어요.", ex:"ᄠᅳᆮ → 뜻, ᄡᅳ다 → 쓰다" },
+    { key:"vow", title:"모음 조화", desc:"양성 모음(ㆍ, ㅏ, ㅗ)은 양성 모음끼리, 음성 모음(ㅡ, ㅓ, ㅜ)은 음성 모음끼리 어울렸어요. 아래아가 사라진 뒤 많이 무너졌어요.", ex:"ᄒᆞ야 / 字ᄍᆞᆼᄅᆞᆯ / ᄠᅳ들" },
+    { key:"subj", title:"주격 조사 '이 / ㅣ / ∅'", desc:"자음 뒤에는 '이', 모음 뒤에는 'ㅣ', 'ㅣ' 모음 뒤에는 나타나지 않았어요. '가'는 아직 없었어요.", ex:"빅셩 + 이 → 百ᄇᆡᆨ姓셩이 / 나 + ㅣ → 내" },
+    { key:"comp", title:"비교 부사격 조사 '에'", desc:"지금의 '과/와' 자리에 '에'를 썼어요.", ex:"中듕國귁에 달아 = 중국과 달라" },
+    { key:"dong", title:"동국정운식 한자음", desc:"한자음을 중국 원음에 가깝게 적고, 받침이 없으면 ㅇ을 넣어 초성·중성·종성을 갖추었어요.", ex:"中듕國귁, 字ᄍᆞᆼ" },
+    { key:"phon", title:"구개음화·두음 법칙 없음", desc:"'디'가 '지'로 바뀌는 구개음화, 첫소리 'ㄴ'이 바뀌는 두음 법칙이 아직 일어나지 않았어요.", ex:"펴디 → 펴지, 니르고져 → 이르고자" },
+    { key:"lex", title:"뜻이 바뀐 어휘", desc:"모양은 남아 있지만 뜻이 달라진 낱말이 있어요.", ex:"어리다(어리석다), 어엿브다(가엾다), 하다(많다)" }
+  ];
+
+  const $ = (s) => document.querySelector(s);
+  const original = $("#original");
+  const info = $("#info");
+  let activeFilter = null;
+  let selected = null;
+
+  // 원문 렌더링
+  const title = document.createElement("span");
+  title.className = "title";
+  title.textContent = "世솅宗조ᇰ御ᅌᅥᆼ製졩訓훈民민正졍音ᅙᅳᆷ";
+  original.appendChild(title);
+  TOKENS.forEach((tok, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "tok";
+    b.textContent = tok.t;
+    b.dataset.i = i;
+    b.setAttribute("aria-label", `${tok.t}, 현대어 ${tok.m}`);
+    b.addEventListener("click", () => select(i));
+    original.appendChild(b);
+    original.appendChild(document.createTextNode(" "));
+  });
+
+  function select(i) {
+    const tok = TOKENS[i];
+    document.querySelectorAll(".tok.sel").forEach(el => el.classList.remove("sel"));
+    original.querySelector(`[data-i="${i}"]`).classList.add("sel");
+    selected = i;
+    const tags = tok.f.map(k => `<span>${FEATURES[k].short}</span>`).join("");
+    info.innerHTML = `
+      <div><span class="w"></span> → <b class="m"></b></div>
+      <div class="n" style="margin-top:4px"></div>
+      ${tags ? `<div class="tags">${tags}</div>` : ""}`;
+    info.querySelector(".w").textContent = tok.t;
+    info.querySelector(".m").textContent = tok.m;
+    info.querySelector(".n").textContent = tok.n;
+  }
+
+  // 특징 필터 버튼
+  const filters = $("#filters");
+  const filterKeys = ["yeon","hap","vow","subj","comp","dong","phon","lex","old"];
+  filterKeys.forEach(k => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip";
+    b.textContent = FEATURES[k].short;
+    b.dataset.k = k;
+    b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", () => setFilter(activeFilter === k ? null : k));
+    filters.appendChild(b);
+  });
+
+  function setFilter(k) {
+    activeFilter = k;
+    filters.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", String(c.dataset.k === k)));
+    original.querySelectorAll(".tok").forEach(el => {
+      el.classList.toggle("on", !!k && TOKENS[el.dataset.i].f.includes(k));
+    });
+  }
+
+  // 특징 카드
+  const grid = $("#featGrid");
+  CARDS.forEach((c, idx) => {
+    const count = TOKENS.filter(t => t.f.includes(c.key)).length;
+    const d = document.createElement("div");
+    d.className = "card feat";
+    d.innerHTML = `<div class="num">${idx + 1}</div><h3></h3><p></p><div class="ex"></div>
+      <button class="chip find" type="button">원문에서 찾기 (${count}곳)</button>`;
+    d.querySelector("h3").textContent = c.title;
+    d.querySelector("p").textContent = c.desc;
+    d.querySelector(".ex").textContent = c.ex;
+    d.querySelector(".find").addEventListener("click", () => {
+      setFilter(c.key);
+      document.getElementById("read").scrollIntoView();
+    });
+    grid.appendChild(d);
+  });
+
+  // 퀴즈
+  const QUIZ = [
+    { q:"중세 국어에서는 지금처럼 띄어쓰기를 했다.", opts:["O","X"], a:1,
+      e:"중세 국어에는 띄어쓰기가 없었고 세로로 썼어요." },
+    { q:"'中듕國귁<u>에</u> 달아'에서 '에'는 현대 국어의 무엇에 해당할까요?", opts:["을/를","과/와","에서","의"], a:1,
+      e:"비교 부사격 조사 '에'로, 지금의 '과/와'에 해당해요. → '중국과 달라'" },
+    { q:"'<span class=\"old\">ᄠᅳ들</span>'의 'ㅳ'처럼 단어 첫머리에 서로 다른 자음을 겹쳐 쓴 것을 무엇이라 할까요?", opts:["각자 병서","합용 병서","연서","8종성법"], a:1,
+      e:"서로 다른 자음을 나란히 쓴 것은 합용 병서예요. 어두 자음군은 현대에 된소리가 되었어요." },
+    { q:"'내'(나 + 주격 조사)에서 주격 조사는 어떤 모양으로 쓰였을까요?", opts:["이","ㅣ","가","∅(생략)"], a:1,
+      e:"모음으로 끝난 말 뒤에서는 'ㅣ'가 쓰여 앞 글자와 합쳐졌어요. 주격 조사 '가'는 아직 없었어요." },
+    { q:"'<span class=\"old\">어린</span> 百ᄇᆡᆨ姓셩'에서 '어린'의 뜻은?", opts:["나이가 적은","어리석은","가엾은","많은"], a:1,
+      e:"'어리다'는 '어리석다'라는 뜻이었어요. 이처럼 뜻이 바뀐 것을 의미 이동이라고 해요." },
+    { q:"다음 중 모음 조화가 지켜진 예는?", opts:["ᄒᆞ야","ᄒᆞ여","ᄒᆞ여야","ᄒᆞ요"], a:0,
+      e:"양성 모음 'ㆍ' 뒤에 양성 모음 'ㅏ'가 온 'ᄒᆞ야'가 모음 조화를 지킨 예예요." }
+  ];
+  const quizBox = $("#quizBox");
+  const scoreEl = $("#score");
+  let answered = 0, correct = 0;
+
+  function renderQuiz() {
+    quizBox.innerHTML = "";
+    answered = 0; correct = 0; scoreEl.textContent = "";
+    QUIZ.forEach((item, qi) => {
+      const box = document.createElement("div");
+      box.className = "card q";
+      box.innerHTML = `<h3>${qi + 1}. ${item.q}</h3><div class="opts"></div><div class="fb" aria-live="polite"></div>`;
+      const opts = box.querySelector(".opts");
+      const fb = box.querySelector(".fb");
+      item.opts.forEach((o, oi) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "opt"; b.textContent = o;
+        b.addEventListener("click", () => {
+          opts.querySelectorAll(".opt").forEach((x, xi) => {
+            x.disabled = true;
+            if (xi === item.a) x.classList.add("right");
+          });
+          if (oi === item.a) { correct++; fb.innerHTML = "⭕ 정답! "; }
+          else { b.classList.add("wrong"); fb.innerHTML = "❌ 아쉬워요. "; }
+          fb.appendChild(document.createTextNode(item.e));
+          answered++;
+          if (answered === QUIZ.length) {
+            scoreEl.textContent = `🎉 ${QUIZ.length}문제 중 ${correct}문제를 맞혔어요!` +
+              (correct === QUIZ.length ? " 완벽해요!" : " 틀린 문제는 ③ 특징 탐구에서 다시 확인해 보세요.");
+          }
+        });
+        opts.appendChild(b);
+      });
+      quizBox.appendChild(box);
+    });
+  }
+  $("#resetQuiz").addEventListener("click", renderQuiz);
+  renderQuiz();
+</script>
+</body>
+</html>
